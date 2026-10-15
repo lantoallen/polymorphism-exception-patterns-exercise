@@ -1,0 +1,10 @@
+# Compiled output
+out/
+bin/
+*.class
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+.DS_Store
