@@ -12,6 +12,7 @@ import java.util.Map;
 public class Box extends Parcel {
 
     public static final BigDecimal MAX_WEIGHT = new BigDecimal("50");
+    public static final int MAX_SIDE_CM = 300; // realistic limit for one side of a parcel (3 meters)
 
     private static final BigDecimal VOLUMETRIC_DIVISOR = new BigDecimal("3500");
     private static final BigDecimal RATE_PER_KG = new BigDecimal("40");
@@ -38,8 +39,8 @@ public class Box extends Parcel {
         if (centimeters <= 0) {
             throw new InvalidInputException(label + " must be greater than 0.");
         }
-        if (centimeters > Integer.MAX_VALUE) {
-            throw new InvalidInputException(label + " is too large.");
+        if (centimeters > MAX_SIDE_CM) {
+            throw new InvalidInputException(label + " must not exceed " + MAX_SIDE_CM + " cm.");
         }
         return (int) centimeters;
     }
@@ -90,7 +91,7 @@ public class Box extends Parcel {
         return details;
     }
 
-    // BigDecimal, so even the largest int dimensions cannot overflow.
+    // L x W x H in cubic cm, as BigDecimal so the division by 3500 is exact.
     private BigDecimal getVolume() {
         return BigDecimal.valueOf(length)
                 .multiply(BigDecimal.valueOf(width))
