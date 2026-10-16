@@ -119,11 +119,18 @@ public class ParcelMenu {
         }
     }
 
-    /** Asks for every detail of the chosen parcel type; each field is re-asked until it is valid. */
+    /**
+     * Asks for every detail of the chosen parcel type; each field is re-asked until it is valid.
+     * Returns null if the user goes back (0 at the tracking number).
+     */
     private Parcel readNewParcel(int type) {
         System.out.println();
         System.out.println("Enter the details of the new " + typeNameOf(type) + ":");
-        String trackingNumber = input.prompt("Tracking number (e.g. ABC0001): ", this::parseNewTrackingNumber);
+        String trackingNumber = input.prompt("Tracking number (e.g. ABC0001, 0 to go back): ",
+                this::parseNewTrackingNumber);
+        if (trackingNumber == null) {
+            return null; // user typed 0
+        }
         String receiverName = input.prompt("Receiver name: ", Parcel::validateReceiverName);
         BigDecimal weight = readWeight(maxWeightOf(type));
         try {
@@ -147,7 +154,11 @@ public class ParcelMenu {
         }
     }
 
+    /** Returns the new tracking number, or null for 0 (back). Taken numbers are refused. */
     private String parseNewTrackingNumber(String text) throws InvalidInputException {
+        if (text.equals("0")) {
+            return null;
+        }
         String trackingNumber = Parcel.validateTrackingNumber(text);
         manager.checkNotUsed(trackingNumber);
         return trackingNumber;
@@ -159,7 +170,7 @@ public class ParcelMenu {
     }
 
     private int readDimension(String label) {
-        return input.prompt(label + " in cm: ",
+        return input.prompt(label + " in cm (1-" + Box.MAX_SIDE_CM + "): ",
                 text -> Box.validateDimension(InputReader.parseWholeNumber(text, label), label));
     }
 
