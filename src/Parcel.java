@@ -29,6 +29,7 @@ public abstract class Parcel {
         }
     }
 
+    public static final int MIN_NAME_LETTERS = 2;
     public static final int MAX_NAME_LENGTH = 50;
     public static final int MAX_WEIGHT_DECIMALS = 3;
 
@@ -169,6 +170,10 @@ public abstract class Parcel {
         if (!NAME_FORMAT.matcher(name).matches()) {
             throw new InvalidInputException("Invalid receiver name. Use letters, with only one space, "
                     + "period, apostrophe or hyphen between words (e.g. Ma. Clara O'Neil-Reyes).");
+        }
+        if (name.replaceAll("\\P{L}", "").length() < MIN_NAME_LETTERS) {
+            throw new InvalidInputException(
+                    "Receiver name must have at least " + MIN_NAME_LETTERS + " letters.");
         }
         return name;
     }
