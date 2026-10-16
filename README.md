@@ -61,9 +61,10 @@ reads what the user types.
 ## Input rules
 
 - **Tracking number:** `ABC` + 4 digits (e.g. `ABC0001`), and no two parcels can share one.
-- **Receiver name:** letters only, up to 50 characters. Write numbers as Roman numerals (e.g. `Juan Dela Cruz III`).
+  Small letters are changed to capitals (`abc0001` becomes `ABC0001`).
+- **Receiver name:** letters only, 2 to 50 characters. Write numbers as Roman numerals (e.g. `Juan Dela Cruz III`).
 - **Weight:** more than 0 and not over the parcel's max, up to 3 decimal places.
-- **Pages:** 1 to 100. **Length, width, height:** whole numbers above 0.
-- **Handling note:** required, up to 100 characters.
+- **Pages:** 1 to 100. **Length, width, height:** whole numbers from 1 to 300 cm.
+- **Handling note:** required, 3 to 100 characters.
 - **Numbers:** no leading zeros (type `5`, not `05`).
 - If an input is wrong, the program says why and asks again. Where shown, type `0` to go back.
