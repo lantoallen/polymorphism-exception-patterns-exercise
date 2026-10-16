@@ -27,7 +27,7 @@ java -cp out Main
 | 4. Mark as Delivered | Mark a parcel as delivered |
 | 5. Exit | Close the program |
 
-Options 2 to 4 appear once you add your first parcel.
+If there are no parcels yet, options 2 to 4 say the list is empty and return to the menu.
 
 ## Fees
 

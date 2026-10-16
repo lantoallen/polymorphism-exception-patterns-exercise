@@ -44,13 +44,19 @@ public class ParcelMenu {
                     addParcel();
                     break;
                 case 2:
-                    viewAllParcels();
+                    if (hasParcels()) {
+                        viewAllParcels();
+                    }
                     break;
                 case 3:
-                    changeDeliveryService();
+                    if (hasParcels()) {
+                        changeDeliveryService();
+                    }
                     break;
                 case 4:
-                    markAsDelivered();
+                    if (hasParcels()) {
+                        markAsDelivered();
+                    }
                     break;
                 case 5:
                     isRunning = false;
@@ -63,16 +69,18 @@ public class ParcelMenu {
         System.out.println("Thank you for using the Parcel Delivery System. Goodbye!");
     }
 
+    /** Options 2 to 4 need at least one parcel. If there is none, say so and stay in the main menu. */
+    private boolean hasParcels() {
+        if (manager.isEmpty()) {
+            System.out.println();
+            System.out.println("The parcel list is empty. Please add a parcel first.");
+            return false;
+        }
+        return true;
+    }
+
     private int showMainMenu() {
         printTitle("PARCEL DELIVERY SYSTEM");
-        if (manager.isEmpty()) {
-            // Nothing to view, change or deliver yet, so only Add and Exit are shown.
-            System.out.println("  [1] Add Parcel");
-            System.out.println("  [5] Exit");
-            printLine('-');
-            System.out.println("  No parcels yet. Add a parcel to see more options.");
-            return input.readChoice("Enter your choice: ", "1", "5");
-        }
         System.out.println("  [1] Add Parcel");
         System.out.println("  [2] View All Parcels");
         System.out.println("  [3] Change Delivery Service");
@@ -211,10 +219,6 @@ public class ParcelMenu {
     private void viewAllParcels() {
         printSection("ALL PARCELS");
         List<Parcel> parcels = manager.getAllParcels();
-        if (parcels.isEmpty()) {
-            System.out.println("No parcels to display."); // safety net: the option is hidden when empty
-            return;
-        }
 
         // These three columns grow with the data; the others have a known maximum width.
         int receiverWidth = "Receiver".length();
