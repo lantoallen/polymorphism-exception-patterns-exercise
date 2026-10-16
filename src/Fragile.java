@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 public class Fragile extends Box {
 
     public static final BigDecimal MAX_WEIGHT = new BigDecimal("30");
+    public static final int MIN_NOTE_LENGTH = 3;
     public static final int MAX_NOTE_LENGTH = 100;
 
     private static final BigDecimal HANDLING_FEE = new BigDecimal("100");
@@ -26,6 +27,10 @@ public class Fragile extends Box {
         String note = text == null ? "" : text.trim().replaceAll("\\s+", " ");
         if (note.isEmpty()) {
             throw new InvalidInputException("Handling note cannot be empty.");
+        }
+        if (note.length() < MIN_NOTE_LENGTH) {
+            throw new InvalidInputException(
+                    "Handling note must be at least " + MIN_NOTE_LENGTH + " characters (e.g. Glass).");
         }
         if (note.length() > MAX_NOTE_LENGTH) {
             throw new InvalidInputException(
