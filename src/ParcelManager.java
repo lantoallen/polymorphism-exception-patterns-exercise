@@ -40,7 +40,7 @@ public final class ParcelManager {
     public void checkNotUsed(String trackingNumber) throws InvalidInputException {
         if (contains(trackingNumber)) {
             throw new InvalidInputException("Tracking number " + Parcel.normalizeTrackingNumber(trackingNumber)
-                    + " already exists!");
+                    + " already exists! Please enter a different one.");
         }
     }
 
